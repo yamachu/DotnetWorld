@@ -101,6 +101,7 @@ namespace ConsoleApplication
             var apis = Manager.GetWorldCoreAPI();
 
             apis.InitializeD4COption(option);
+            option.threshold = 0.85;
 
             world_parameters.aperiodicity = new double[world_parameters.f0_length, world_parameters.fft_size / 2 + 1];
 

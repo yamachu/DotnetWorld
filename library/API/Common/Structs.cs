@@ -13,7 +13,7 @@ namespace DotnetWorld.API.Common.Struct
     [StructLayout(LayoutKind.Sequential)]
     public class D4COption
     {
-        public double dummy;
+        public double threshold;
     }
 
     [StructLayout(LayoutKind.Sequential)]
