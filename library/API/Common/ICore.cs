@@ -5,11 +5,11 @@ namespace DotnetWorld.API.Common
 {
     public interface ICore
     {
-        void CheapTrick(double[] x, int x_length, int fs, double[] time_axis,
+        void CheapTrick(double[] x, int x_length, int fs, double[] temporal_positions,
             double[] f0, int f0_length, CheapTrickOption option,
             double[,] spectrogram);
 
-        void InitializeCheapTrickOption(CheapTrickOption option);
+        void InitializeCheapTrickOption(int fs, CheapTrickOption option);
 
         int GetFFTSizeForCheapTrick(int fs, CheapTrickOption option);
 

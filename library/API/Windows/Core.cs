@@ -7,7 +7,7 @@ namespace DotnetWorld.API.Windows
 {
     public class Core: ICore
     {
-        public void CheapTrick(double[] x, int x_length, int fs, double[] time_axis,
+        public void CheapTrick(double[] x, int x_length, int fs, double[] temporal_positions,
             double[] f0, int f0_length, CheapTrickOption option,
             double[,] spectrogram)
         {
@@ -21,7 +21,7 @@ namespace DotnetWorld.API.Windows
                 ptrs_sp[i] = Marshal.AllocHGlobal(inner * Marshal.SizeOf<double>());
             }
 
-            CoreDefinitions.CheapTrick(x, x_length, fs, time_axis, f0, f0_length, option, ptrs_sp);
+            CoreDefinitions.CheapTrick(x, x_length, fs, temporal_positions, f0, f0_length, option, ptrs_sp);
 
             var tmp_arr = new double[inner];
             
@@ -32,8 +32,8 @@ namespace DotnetWorld.API.Windows
             }
         }
 
-        public void InitializeCheapTrickOption(CheapTrickOption option)
-            => CoreDefinitions.InitializeCheapTrickOption(option);
+        public void InitializeCheapTrickOption(int fs, CheapTrickOption option)
+            => CoreDefinitions.InitializeCheapTrickOption(fs, option);
 
         public int GetFFTSizeForCheapTrick(int fs, CheapTrickOption option)
             => CoreDefinitions.GetFFTSizeForCheapTrick(fs, option);

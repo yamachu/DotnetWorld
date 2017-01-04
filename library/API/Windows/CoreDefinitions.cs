@@ -10,12 +10,12 @@ namespace DotnetWorld.API.Windows
         #region CheapTrick
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
         public static extern void CheapTrick([In][MarshalAs(UnmanagedType.LPArray, SizeParamIndex=1)] double[] x,
-            int x_length, int fs, [In][MarshalAs(UnmanagedType.LPArray, SizeParamIndex=5)] double[] time_axis,
+            int x_length, int fs, [In][MarshalAs(UnmanagedType.LPArray, SizeParamIndex=5)] double[] temporal_positions,
             [In][MarshalAs(UnmanagedType.LPArray, SizeParamIndex=5)] double[] f0, int f0_length, [In] CheapTrickOption option,
             [In][Out] IntPtr[] spectrogram);
 
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
-        public static extern void InitializeCheapTrickOption([Out] CheapTrickOption option);
+        public static extern void InitializeCheapTrickOption(int fs, [Out] CheapTrickOption option);
 
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetFFTSizeForCheapTrick(int fs, [Out] CheapTrickOption option);

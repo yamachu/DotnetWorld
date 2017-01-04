@@ -8,6 +8,7 @@ namespace DotnetWorld.API.Common.Struct
     {
         public double q1;
         public double f0_floor;
+        public int fft_size;
     }
 
     [StructLayout(LayoutKind.Sequential)]
