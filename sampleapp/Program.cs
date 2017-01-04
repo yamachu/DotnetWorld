@@ -82,7 +82,7 @@ namespace ConsoleApplication
             var option = new CheapTrickOption();
             var apis = Manager.GetWorldCoreAPI();
 
-            apis.InitializeCheapTrickOption(option);
+            apis.InitializeCheapTrickOption(world_parameters.fs, option);
 
             option.q1 = -0.15;
             option.f0_floor = 71.0;
