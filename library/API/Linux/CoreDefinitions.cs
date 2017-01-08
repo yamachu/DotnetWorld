@@ -74,14 +74,14 @@ namespace DotnetWorld.API.Linux
             [In][Out] IntPtr y);
         #endregion
 
-        #region SynthesisRealtime - Not Supported
+        #region SynthesisRealtime - WIP
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
         public static extern void InitializeSynthesizer(int fs, double frame_period, int fft_size,
             int buffer_size, int number_of_pointers, [Out] WorldSynthesizer synth);
 
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
-        public static extern int AddParameters([In] double[] f0, int f0_length, ref IntPtr spectrogram,
-            ref IntPtr aperiodicity, [In][Out] WorldSynthesizer synth);
+        public static extern int AddParameters([In][MarshalAs(UnmanagedType.LPArray, SizeParamIndex=1)] double[] f0,
+            int f0_length, [In] IntPtr[] spectrogram, [In] IntPtr[] aperiodicity, [In][Out] WorldSynthesizer synth);
 
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
         public static extern void RefreshSynthesizer([In][Out] WorldSynthesizer synth);
