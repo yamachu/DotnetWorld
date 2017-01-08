@@ -118,6 +118,31 @@ namespace ConsoleApplication
                 world_parameters.fft_size, world_parameters.frame_period, fs,
                 y_length, y);
         }
+
+        public void WaveformSynthesis2(WorldParameters world_parameters, int fs, int y_length, double[] y)
+        {
+            var apis = Manager.GetWorldCoreAPI();
+            
+            var synthesizer = new WorldSynthesizer();
+            int buffer_size = 64;
+            apis.InitializeSynthesizer(world_parameters.fs, world_parameters.frame_period,
+                world_parameters.fft_size, buffer_size, 100, synthesizer);
+
+            apis.AddParameters(world_parameters.f0, world_parameters.f0_length,
+                world_parameters.spectrogram, world_parameters.aperiodicity,
+                synthesizer);
+
+            int index;
+            for (var i = 0; apis.Synthesis2(synthesizer); ++i)
+            {
+                index = i * buffer_size;
+                var buf = synthesizer.GetBuffer();
+                for (var j = 0; j < buffer_size; ++j)
+                    y [j + index] = buf[j];
+            }
+
+            apis.DestroySynthesizer(synthesizer);
+        }
     }
 
     public class Program
@@ -158,7 +183,13 @@ namespace ConsoleApplication
                 y[i] = 0.0;
 
             world.WaveformSynthesis(parameters, fs, y_length, y);
-            tools.WavWrite(y, y_length, fs, nbit, args.Length != 2 ? "/Users/yamachu/Desktop/resyn_harvest.wav": args[1]);
+            tools.WavWrite(y, y_length, fs, nbit, args.Length != 2 ? "/Users/yamachu/Desktop/resyn_harvest_normal.wav": args[1]);
+
+            for (var i = 0; i < y.Length; i++)
+                y[i] = 0.0;
+
+            world.WaveformSynthesis2(parameters, fs, y_length, y);
+            tools.WavWrite(y, y_length, fs, nbit, args.Length != 2 ? "/Users/yamachu/Desktop/resyn_harvest_realtime.wav": args[1]);
         }
     }
 }
