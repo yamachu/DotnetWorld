@@ -1,6 +1,7 @@
 ﻿using System;
 using DotnetWorld.API.Common.Struct;
 using DotnetWorld.API.Common;
+using System.Runtime.InteropServices;
 
 namespace ConsoleApplication
 {
@@ -25,7 +26,7 @@ namespace ConsoleApplication
             System.Console.WriteLine("File information");
             System.Console.WriteLine($"Sampling : {fs} Hz {nbit} Bit");
             System.Console.WriteLine($"Length {x_length} [sample]");
-            System.Console.WriteLine($"Lenght {(double)(x_length / fs)} [sec]");
+            System.Console.WriteLine($"Lenght {((double)x_length / fs)} [sec]");
         }
 
         public void F0EstimationDio(double[] x, int x_length, WorldParameters world_parameters)
@@ -63,7 +64,7 @@ namespace ConsoleApplication
             var apis = Manager.GetWorldCoreAPI();
 
             apis.InitializeHarvestOption(option);
-
+            
             option.frame_period = world_parameters.frame_period;
             option.f0_floor = 71.0;
 
@@ -133,12 +134,14 @@ namespace ConsoleApplication
                 synthesizer);
 
             int index;
+            var _buf = new double[buffer_size];
+
             for (var i = 0; apis.Synthesis2(synthesizer); ++i)
             {
                 index = i * buffer_size;
-                var buf = synthesizer.GetBuffer();
+                synthesizer.CopyFromBufferToArray(_buf);
                 for (var j = 0; j < buffer_size; ++j)
-                    y [j + index] = buf[j];
+                    y [j + index] = _buf[j];
             }
 
             apis.DestroySynthesizer(synthesizer);
@@ -159,6 +162,7 @@ namespace ConsoleApplication
             var tools = DotnetWorld.API.Common.Manager.GetWorldToolsAPI();
             var filename = args.Length != 2 ? "/Users/yamachu/Project/CPP/World/test/vaiueo2d.wav" : args[0];
             var x_length = tools.GetAudioLength(filename);
+            System.Console.WriteLine(x_length);
 
             double[] x = new double[x_length];
             int fs, nbit;
