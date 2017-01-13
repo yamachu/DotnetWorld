@@ -152,7 +152,7 @@ namespace ConsoleApplication
     {
         public static void Main(string[] args)
         {
-            if (args.Length != 2) {
+            if (args.Length < 2) {
                 System.Console.WriteLine($"./app infile outfile");
                 // return;
             }
@@ -160,7 +160,7 @@ namespace ConsoleApplication
             var world = new WorldSample();
             var apis = DotnetWorld.API.Common.Manager.GetWorldCoreAPI();
             var tools = DotnetWorld.API.Common.Manager.GetWorldToolsAPI();
-            var filename = args.Length != 2 ? "/Users/yamachu/Project/CPP/World/test/vaiueo2d.wav" : args[0];
+            var filename = args.Length < 1 ? "/Users/yamachu/Project/CPP/World/test/vaiueo2d.wav" : args[0];
             var x_length = tools.GetAudioLength(filename);
             System.Console.WriteLine(x_length);
 
@@ -187,13 +187,16 @@ namespace ConsoleApplication
                 y[i] = 0.0;
 
             world.WaveformSynthesis(parameters, fs, y_length, y);
-            tools.WavWrite(y, y_length, fs, nbit, args.Length != 2 ? "/Users/yamachu/Desktop/resyn_harvest_normal.wav": args[1]);
+            tools.WavWrite(y, y_length, fs, nbit, args.Length < 2 ? "/Users/yamachu/Desktop/resyn_harvest_normal.wav": args[1]);
 
             for (var i = 0; i < y.Length; i++)
                 y[i] = 0.0;
 
-            world.WaveformSynthesis2(parameters, fs, y_length, y);
-            tools.WavWrite(y, y_length, fs, nbit, args.Length != 2 ? "/Users/yamachu/Desktop/resyn_harvest_realtime.wav": args[1]);
+            if (args.Length <= 1 || args.Length > 2)
+            {
+                world.WaveformSynthesis2(parameters, fs, y_length, y);
+                tools.WavWrite(y, y_length, fs, nbit, args.Length < 3 ? "/Users/yamachu/Desktop/resyn_harvest_realtime.wav": args[2]);
+            }
         }
     }
 }
