@@ -45,7 +45,7 @@ namespace DotnetWorld.API.Common.Struct
         public int number_of_pointers;
         public int fft_size;
 
-        internal IntPtr _buffer; // double*
+        public IntPtr _buffer; // double*
         public int current_pointer;
         public int i;
 
@@ -72,13 +72,17 @@ namespace DotnetWorld.API.Common.Struct
         internal IntPtr minimum_phase; // MinimumPhaseAnalysis
         internal IntPtr inverse_real_fft; // InverseRealFFT
         internal IntPtr forward_real_fft; // ForwardRealFFT
+    }
 
-        public double[] GetBuffer()
+    public static class WorldSynthesizerExtension
+    {
+        public static void CopyFromBufferToArray(this WorldSynthesizer synthesiser, double[] arr)
         {
-            var _buf = new double[buffer_size * 2 + fft_size];
-            Marshal.Copy(_buffer, _buf, 0, _buf.Length);
-            
-            return _buf;
+            if (arr.Length < synthesiser.buffer_size)
+            {
+                throw new Exception();
+            }
+            Marshal.Copy(synthesiser._buffer, arr, 0, synthesiser.buffer_size);
         }
     }
 
