@@ -170,11 +170,11 @@ namespace DotnetWorld.API.Windows
             var res = CoreDefinitions.AddParameters(f0, f0_length, ptrs_sp, ptrs_ap, synth);
 
             // WorldSynthesizer はアドレスを保持しているからここでは解放できない => この IntPtr を保持して Destroy 前に破棄？
-            // for (var i = 0; i < aperiodicity.GetLength(0); i++)
-            // {
-            //     Marshal.FreeHGlobal(ptrs_ap[i]);
-            //     Marshal.FreeHGlobal(ptrs_sp[i]);
-            // }
+            for (var i = 0; i < aperiodicity.GetLength(0); i++)
+            {
+                Marshal.FreeHGlobal(ptrs_ap[i]);
+                Marshal.FreeHGlobal(ptrs_sp[i]);
+            }
 
             return res == 1;
         }
