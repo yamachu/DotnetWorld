@@ -1,6 +1,7 @@
 ﻿using System;
 using DotnetWorld.API.Common.Struct;
 using DotnetWorld.API.Common;
+using System.Runtime.InteropServices;
 
 namespace ConsoleApplication
 {
@@ -25,7 +26,7 @@ namespace ConsoleApplication
             System.Console.WriteLine("File information");
             System.Console.WriteLine($"Sampling : {fs} Hz {nbit} Bit");
             System.Console.WriteLine($"Length {x_length} [sample]");
-            System.Console.WriteLine($"Lenght {(double)(x_length / fs)} [sec]");
+            System.Console.WriteLine($"Lenght {((double)x_length / fs)} [sec]");
         }
 
         public void F0EstimationDio(double[] x, int x_length, WorldParameters world_parameters)
@@ -63,7 +64,7 @@ namespace ConsoleApplication
             var apis = Manager.GetWorldCoreAPI();
 
             apis.InitializeHarvestOption(option);
-
+            
             option.frame_period = world_parameters.frame_period;
             option.f0_floor = 71.0;
 
@@ -118,13 +119,40 @@ namespace ConsoleApplication
                 world_parameters.fft_size, world_parameters.frame_period, fs,
                 y_length, y);
         }
+
+        public void WaveformSynthesis2(WorldParameters world_parameters, int fs, int y_length, double[] y)
+        {
+            var apis = Manager.GetWorldCoreAPI();
+            
+            var synthesizer = new WorldSynthesizer();
+            int buffer_size = 64;
+            apis.InitializeSynthesizer(world_parameters.fs, world_parameters.frame_period,
+                world_parameters.fft_size, buffer_size, 100, synthesizer);
+
+            apis.AddParameters(world_parameters.f0, world_parameters.f0_length,
+                world_parameters.spectrogram, world_parameters.aperiodicity,
+                synthesizer);
+
+            int index;
+            var _buf = new double[buffer_size];
+
+            for (var i = 0; apis.Synthesis2(synthesizer); ++i)
+            {
+                index = i * buffer_size;
+                synthesizer.CopyFromBufferToArray(_buf);
+                for (var j = 0; j < buffer_size; ++j)
+                    y [j + index] = _buf[j];
+            }
+
+            apis.DestroySynthesizer(synthesizer);
+        }
     }
 
     public class Program
     {
         public static void Main(string[] args)
         {
-            if (args.Length != 2) {
+            if (args.Length < 2) {
                 System.Console.WriteLine($"./app infile outfile");
                 // return;
             }
@@ -132,8 +160,9 @@ namespace ConsoleApplication
             var world = new WorldSample();
             var apis = DotnetWorld.API.Common.Manager.GetWorldCoreAPI();
             var tools = DotnetWorld.API.Common.Manager.GetWorldToolsAPI();
-            var filename = args.Length != 2 ? "/Users/yamachu/Project/CPP/World/test/vaiueo2d.wav" : args[0];
+            var filename = args.Length < 1 ? "/Users/yamachu/Project/CPP/World/test/vaiueo2d.wav" : args[0];
             var x_length = tools.GetAudioLength(filename);
+            System.Console.WriteLine(x_length);
 
             double[] x = new double[x_length];
             int fs, nbit;
@@ -158,7 +187,16 @@ namespace ConsoleApplication
                 y[i] = 0.0;
 
             world.WaveformSynthesis(parameters, fs, y_length, y);
-            tools.WavWrite(y, y_length, fs, nbit, args.Length != 2 ? "/Users/yamachu/Desktop/resyn_harvest.wav": args[1]);
+            tools.WavWrite(y, y_length, fs, nbit, args.Length < 2 ? "/Users/yamachu/Desktop/resyn_harvest_normal.wav": args[1]);
+
+            for (var i = 0; i < y.Length; i++)
+                y[i] = 0.0;
+
+            if (args.Length <= 1 || args.Length > 2)
+            {
+                world.WaveformSynthesis2(parameters, fs, y_length, y);
+                tools.WavWrite(y, y_length, fs, nbit, args.Length < 3 ? "/Users/yamachu/Desktop/resyn_harvest_realtime.wav": args[2]);
+            }
         }
     }
 }

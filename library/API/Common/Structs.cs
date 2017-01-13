@@ -39,33 +39,102 @@ namespace DotnetWorld.API.Common.Struct
     [StructLayout(LayoutKind.Sequential)]
     public class WorldSynthesizer
     {
-        int fs;
-        double frame_period;
-        int buffer_size;
-        int number_of_pointers;
-        int fft_size;
+        public int fs;
+        public double frame_period;
+        public int buffer_size;
+        public int number_of_pointers;
+        public int fft_size;
 
-        IntPtr buffer; // double*
-        int current_pointer;
-        int i;
+        public IntPtr _buffer; // double*
+        public int current_pointer;
+        public int i;
 
-        IntPtr f0_length; // int*
-        IntPtr f0_origin; // int*
-        IntPtr spectrogram; // double***
-        IntPtr aperiodicity; // double***
+        internal IntPtr f0_length; // int*
+        internal IntPtr f0_origin; // int*
+        internal IntPtr spectrogram; // double***
+        internal IntPtr aperiodicity; // double***
 
-        int cumulative_frame;
-        int current_frame;
+        internal int handoff;
+        internal double handoff_phase;
+        internal double handoff_f0;
+        internal int last_location;
 
-        IntPtr interpolated_vuv; // double**
-        IntPtr pulse_locations; // double**
-        IntPtr pulse_locations_index; // int**
-        IntPtr number_of_pulses; // int*
+        public int cumulative_frame;
+        public int current_frame;
 
-        IntPtr impulse_response; // double*
+        internal IntPtr interpolated_vuv; // double**
+        internal IntPtr pulse_locations; // double**
+        internal IntPtr pulse_locations_index; // int**
+        internal IntPtr number_of_pulses; // int*
 
-        IntPtr minimum_phase; // MinimumPhaseAnalysis - not supported?
-        IntPtr inverse_real_fft; // InverseRealFFT
-        IntPtr forward_real_fft; // ForwardRealFFT
+        internal IntPtr impulse_response; // double*
+
+        internal IntPtr minimum_phase; // MinimumPhaseAnalysis
+        internal IntPtr inverse_real_fft; // InverseRealFFT
+        internal IntPtr forward_real_fft; // ForwardRealFFT
     }
+
+    public static class WorldSynthesizerExtension
+    {
+        public static void CopyFromBufferToArray(this WorldSynthesizer synthesiser, double[] arr)
+        {
+            if (arr.Length < synthesiser.buffer_size)
+            {
+                throw new Exception();
+            }
+            Marshal.Copy(synthesiser._buffer, arr, 0, synthesiser.buffer_size);
+        }
+    }
+
+    #region FFT
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct FFT_PLAN
+    {
+        public int n;
+        public int sign;
+        public uint flags;
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+        public double[] c_in;
+        public IntPtr _in; // double* : fft_complex
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+        public double[] c_out;
+        public IntPtr _out; // double* : fft_complex
+        public IntPtr input; // double*
+        public IntPtr ip; // int*
+        public IntPtr w; // double*
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct ForwardRealFFT
+    {
+        public int fft_size;
+        public IntPtr waveform; // double*
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+        public double[] spectrum;
+        public FFT_PLAN forward_fft;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct InverseRealFFT
+    {
+        public int fft_size;
+        public IntPtr waveform; // double*
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+        public double[] spectrum;
+        public FFT_PLAN inverse_fft;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct MinimumPhaseAnalysis
+    {
+        public int fft_size;
+        public IntPtr log_spectrum; // double*
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+        public double[] minimum_phase_spectrum;
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
+        public double[] cepstrum;
+        public FFT_PLAN inverse_fft;
+        public FFT_PLAN forward_fft;
+    }
+    #endregion
 }

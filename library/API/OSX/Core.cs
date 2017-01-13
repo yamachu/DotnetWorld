@@ -38,7 +38,9 @@ namespace DotnetWorld.API.OSX
         public int GetFFTSizeForCheapTrick(int fs, CheapTrickOption option)
             => CoreDefinitions.GetFFTSizeForCheapTrick(fs, option);
 
-        public void D4C(double[] x, int x_length, int fs, double[] time_axis, double[] f0, int f0_length, int fft_size, D4COption option, double[,] aperiodicity)
+        public void D4C(double[] x, int x_length, int fs, double[] time_axis,
+            double[] f0, int f0_length, int fft_size, D4COption option,
+            double[,] aperiodicity)
         {
             int outer = aperiodicity.GetLength(0);
             int inner = aperiodicity.GetLength(1);
@@ -140,5 +142,53 @@ namespace DotnetWorld.API.OSX
 
             Marshal.FreeHGlobal(ptr_y);
         }
+
+        public void InitializeSynthesizer(int fs, double frame_period, int fft_size, int buffer_size, int number_of_pointers, WorldSynthesizer synth)
+            => CoreDefinitions.InitializeSynthesizer(fs, frame_period, fft_size, buffer_size, number_of_pointers, synth);
+        
+        public bool AddParameters(double[] f0, int f0_length, double[,] spectrogram, double[,] aperiodicity, WorldSynthesizer synth)
+        {
+            int outer = aperiodicity.GetLength(0);
+            int inner = aperiodicity.GetLength(1);
+
+            IntPtr[] ptrs_ap = new IntPtr[outer];
+            IntPtr[] ptrs_sp = new IntPtr[outer];
+
+            var tmp_arr = new double[inner];
+
+            for (var i = 0; i < outer; i++)
+            {
+                ptrs_ap[i] = Marshal.AllocHGlobal(inner * Marshal.SizeOf<double>());
+                ptrs_sp[i] = Marshal.AllocHGlobal(inner * Marshal.SizeOf<double>());
+
+                Buffer.BlockCopy(spectrogram, i * inner * sizeof(double), tmp_arr, 0, inner * sizeof(double));
+                Marshal.Copy(tmp_arr, 0, ptrs_sp[i], inner);
+                Buffer.BlockCopy(aperiodicity, i * inner * sizeof(double), tmp_arr, 0, inner * sizeof(double));
+                Marshal.Copy(tmp_arr, 0, ptrs_ap[i], inner);
+            }
+
+            var res = CoreDefinitions.AddParameters(f0, f0_length, ptrs_sp, ptrs_ap, synth);
+
+            // WorldSynthesizer はアドレスを保持しているからここでは解放できない => この IntPtr を保持して Destroy 前に破棄？
+            for (var i = 0; i < aperiodicity.GetLength(0); i++)
+            {
+                Marshal.FreeHGlobal(ptrs_ap[i]);
+                Marshal.FreeHGlobal(ptrs_sp[i]);
+            }
+
+            return res == 1;
+        }
+
+        public void RefreshSynthesizer(WorldSynthesizer synth)
+            => CoreDefinitions.RefreshSynthesizer(synth);
+
+        public void DestroySynthesizer(WorldSynthesizer synth)
+            => CoreDefinitions.DestroySynthesizer(synth);
+
+        public bool IsLocked(WorldSynthesizer synth)
+            => CoreDefinitions.IsLocked(synth) == 1;
+
+        public bool Synthesis2(WorldSynthesizer synth)
+            => CoreDefinitions.Synthesis2(synth) == 1;
     }
 }

@@ -39,5 +39,19 @@ namespace DotnetWorld.API.Common
         void Synthesis(double[] f0, int f0_length, double[,] spectrogram,
             double[,] aperiodicity, int fft_size, double frame_period, int fs,
             int y_length, double[] y);
+
+        void InitializeSynthesizer(int fs, double frame_period, int fft_size,
+            int buffer_size, int number_of_pointers, WorldSynthesizer synth);
+
+        bool AddParameters(double[] f0, int f0_length, double[,] spectrogram,
+            double[,] aperiodicity, WorldSynthesizer synth);
+
+        void RefreshSynthesizer(WorldSynthesizer synth);
+
+        void DestroySynthesizer(WorldSynthesizer synth);
+
+        bool IsLocked(WorldSynthesizer synth);
+
+        bool Synthesis2(WorldSynthesizer synth);
     }
 }
