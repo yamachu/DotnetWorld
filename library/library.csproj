@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <DebugType>portable</DebugType>
+    <AssemblyName>DotnetWorld</AssemblyName>
+    <PackageId>DotnetWorld</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+    <PackageReference Include="NETStandard.Library" Version="1.6.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Sources Include="src/**/*.cs" />
+  </ItemGroup>
+  <PropertyGroup>
+    <DefineConstants Condition="$(Configuration.StartsWith('Linux'))">__Linux</DefineConstants>
+    <DefineConstants Condition="$(Configuration.StartsWith('OSX'))">__OSX</DefineConstants>
+    <DefineConstants Condition="$(Configuration.StartsWith('Win'))">__Win</DefineConstants>
+    <DefineConstants Condition="$(Configuration.Contains('Debug'))">$(DefineConstants);DEBUG;TRACE</DefineConstants>
+    <DefineConstants Condition="$(Configuration.Contains('Release'))">$(DefineConstants);RELEASE;TRACE</DefineConstants>
+    <Optimize Condition="$(Configuration.Contains('Debug'))">false</Optimize>
+    <Optimize Condition="$(Configuration.Contains('Release'))">true</Optimize>
+  </PropertyGroup>
+
+</Project>

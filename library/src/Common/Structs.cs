@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace DotnetWorld.API.Common.Struct
+namespace DotnetWorld.API.Structs
 {
     [StructLayout(LayoutKind.Sequential)]
     public class CheapTrickOption

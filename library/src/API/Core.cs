@@ -1,13 +1,12 @@
 using System;
 using System.Runtime.InteropServices;
-using DotnetWorld.API.Common;
-using DotnetWorld.API.Common.Struct;
+using DotnetWorld.API.Structs;
 
-namespace DotnetWorld.API.OSX
+namespace DotnetWorld.API
 {
-    public class Core: ICore
+    public class Core
     {
-        public void CheapTrick(double[] x, int x_length, int fs, double[] temporal_positions,
+        public static void CheapTrick(double[] x, int x_length, int fs, double[] temporal_positions,
             double[] f0, int f0_length, CheapTrickOption option,
             double[,] spectrogram)
         {
@@ -32,13 +31,13 @@ namespace DotnetWorld.API.OSX
             }
         }
 
-        public void InitializeCheapTrickOption(int fs, CheapTrickOption option)
+        public static void InitializeCheapTrickOption(int fs, CheapTrickOption option)
             => CoreDefinitions.InitializeCheapTrickOption(fs, option);
 
-        public int GetFFTSizeForCheapTrick(int fs, CheapTrickOption option)
+        public static int GetFFTSizeForCheapTrick(int fs, CheapTrickOption option)
             => CoreDefinitions.GetFFTSizeForCheapTrick(fs, option);
 
-        public void D4C(double[] x, int x_length, int fs, double[] time_axis,
+        public static void D4C(double[] x, int x_length, int fs, double[] time_axis,
             double[] f0, int f0_length, int fft_size, D4COption option,
             double[,] aperiodicity)
         {
@@ -63,10 +62,10 @@ namespace DotnetWorld.API.OSX
             }
         }
 
-        public void InitializeD4COption(D4COption option)
+        public static void InitializeD4COption(D4COption option)
             => CoreDefinitions.InitializeD4COption(option);
 
-        public void Dio(double[] x, int x_length, int fs, DioOption option,
+        public static void Dio(double[] x, int x_length, int fs, DioOption option,
             double[] time_axis, double[] f0)
         {
             IntPtr ptr_time = Marshal.AllocHGlobal(Marshal.SizeOf<double>() * time_axis.Length);
@@ -81,13 +80,13 @@ namespace DotnetWorld.API.OSX
             Marshal.FreeHGlobal(ptr_f0);
         }
 
-        public void InitializeDioOption(DioOption option)
+        public static void InitializeDioOption(DioOption option)
             => CoreDefinitions.InitializeDioOption(option);
 
-        public int GetSamplesForDIO(int fs, int x_length, double frame_period)
+        public static int GetSamplesForDIO(int fs, int x_length, double frame_period)
             => CoreDefinitions.GetSamplesForDIO(fs, x_length, frame_period);
 
-        public void Harvest(double[] x, int x_length, int fs, HarvestOption option, double[] time_axis, double[] f0)
+        public static void Harvest(double[] x, int x_length, int fs, HarvestOption option, double[] time_axis, double[] f0)
         {
             IntPtr ptr_time = Marshal.AllocHGlobal(Marshal.SizeOf<double>() * time_axis.Length);
             IntPtr ptr_f0 = Marshal.AllocHGlobal(Marshal.SizeOf<double>() * f0.Length);
@@ -101,16 +100,16 @@ namespace DotnetWorld.API.OSX
             Marshal.FreeHGlobal(ptr_f0);
         }
 
-        public void InitializeHarvestOption(HarvestOption option)
+        public static void InitializeHarvestOption(HarvestOption option)
             => CoreDefinitions.InitializeHarvestOption(option);
 
-        public int GetSamplesForHarvest(int fs, int x_length, double frame_period)
+        public static int GetSamplesForHarvest(int fs, int x_length, double frame_period)
             => CoreDefinitions.GetSamplesForHarvest(fs, x_length, frame_period);
 
-        public void StoneMask(double[] x, int x_length, int fs, double[] time_axis, double[] f0, int f0_length, double[] refined_f0)
+        public static void StoneMask(double[] x, int x_length, int fs, double[] time_axis, double[] f0, int f0_length, double[] refined_f0)
             => CoreDefinitions.StoneMask(x, x_length, fs, time_axis, f0, f0_length, refined_f0);
 
-        public void Synthesis(double[] f0, int f0_length, double[,] spectrogram, double[,] aperiodicity, int fft_size, double frame_period, int fs, int y_length, double[] y)
+        public static void Synthesis(double[] f0, int f0_length, double[,] spectrogram, double[,] aperiodicity, int fft_size, double frame_period, int fs, int y_length, double[] y)
         {
             int outer = aperiodicity.GetLength(0);
             int inner = aperiodicity.GetLength(1);
@@ -143,10 +142,10 @@ namespace DotnetWorld.API.OSX
             Marshal.FreeHGlobal(ptr_y);
         }
 
-        public void InitializeSynthesizer(int fs, double frame_period, int fft_size, int buffer_size, int number_of_pointers, WorldSynthesizer synth)
+        public static void InitializeSynthesizer(int fs, double frame_period, int fft_size, int buffer_size, int number_of_pointers, WorldSynthesizer synth)
             => CoreDefinitions.InitializeSynthesizer(fs, frame_period, fft_size, buffer_size, number_of_pointers, synth);
         
-        public bool AddParameters(double[] f0, int f0_length, double[,] spectrogram, double[,] aperiodicity, WorldSynthesizer synth)
+        public static bool AddParameters(double[] f0, int f0_length, double[,] spectrogram, double[,] aperiodicity, WorldSynthesizer synth)
         {
             int outer = aperiodicity.GetLength(0);
             int inner = aperiodicity.GetLength(1);
@@ -179,16 +178,16 @@ namespace DotnetWorld.API.OSX
             return res == 1;
         }
 
-        public void RefreshSynthesizer(WorldSynthesizer synth)
+        public static void RefreshSynthesizer(WorldSynthesizer synth)
             => CoreDefinitions.RefreshSynthesizer(synth);
 
-        public void DestroySynthesizer(WorldSynthesizer synth)
+        public static void DestroySynthesizer(WorldSynthesizer synth)
             => CoreDefinitions.DestroySynthesizer(synth);
 
-        public bool IsLocked(WorldSynthesizer synth)
+        public static bool IsLocked(WorldSynthesizer synth)
             => CoreDefinitions.IsLocked(synth) == 1;
 
-        public bool Synthesis2(WorldSynthesizer synth)
+        public static bool Synthesis2(WorldSynthesizer synth)
             => CoreDefinitions.Synthesis2(synth) == 1;
     }
 }

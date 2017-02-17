@@ -1,12 +1,18 @@
 using System;
 using System.Runtime.InteropServices;
-using DotnetWorld.API.Common.Struct;
+using DotnetWorld.API.Structs;
 
-namespace DotnetWorld.API.Linux
+namespace DotnetWorld.API
 {
     internal static class CoreDefinitions
     {
+#if __OSX
+        private const string DllName = "libworld.dylib";
+#elif __Linux
         private const string DllName = "libworld.so";
+#elif __Win
+        private const string DllName = "world.dll";
+#endif
         #region CheapTrick
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
         public static extern void CheapTrick([In][MarshalAs(UnmanagedType.LPArray, SizeParamIndex=1)] double[] x,
