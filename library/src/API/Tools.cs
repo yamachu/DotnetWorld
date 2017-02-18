@@ -1,15 +1,14 @@
 using System;
 using System.Runtime.InteropServices;
-using DotnetWorld.API.Common;
 
-namespace DotnetWorld.API.Windows
+namespace DotnetWorld.API
 {
-    public class Tools : ITools
+    public class Tools
     {
-        public int GetAudioLength(string filename)
+        public static int GetAudioLength(string filename)
             => ToolsDefinitions.GetAudioLength(filename);
             
-        public void WavRead(string filename, out int fs, out int nbit, double[] x)
+        public static void WavRead(string filename, out int fs, out int nbit, double[] x)
         {
             IntPtr ptr_x = Marshal.AllocHGlobal(Marshal.SizeOf<double>() * x.Length);
             ToolsDefinitions.wavread(filename, out fs, out nbit, ptr_x);
@@ -17,7 +16,7 @@ namespace DotnetWorld.API.Windows
             Marshal.FreeHGlobal(ptr_x);
         }
 
-        public void WavWrite(double[] x, int x_length, int fs, int nbit, string filename)
+        public static void WavWrite(double[] x, int x_length, int fs, int nbit, string filename)
             => ToolsDefinitions.wavwrite(x, x_length, fs, nbit, filename);
     }
 }

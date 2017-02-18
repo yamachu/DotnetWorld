@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>DotnetWorld</id>
+    <version>1.0.0</version>
+    <authors>DotnetWorld</authors>
+    <owners>DotnetWorld</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework=".NETStandard1.6">
+        <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="ref/bin/Release/netstandard1.6/DotnetWorld.dll" target="ref/netstandard1.6/DotnetWorld.dll" />
+    <file src="ref/bin/Release/netstandard1.6/DotnetWorld.pdb" target="ref/netstandard1.6/DotnetWorld.pdb" />
+    <file src="src/bin/Linux_Release/netstandard1.6/DotnetWorld.dll" target="runtimes/linux/lib/netstandard1.6/DotnetWorld.dll" />
+    <file src="src/bin/Linux_Release/netstandard1.6/DotnetWorld.pdb" target="runtimes/linux/lib/netstandard1.6/DotnetWorld.pdb" />
+    <file src="src/bin/OSX_Release/netstandard1.6/DotnetWorld.dll" target="runtimes/osx/lib/netstandard1.6/DotnetWorld.dll" />
+    <file src="src/bin/OSX_Release/netstandard1.6/DotnetWorld.pdb" target="runtimes/osx/lib/netstandard1.6/DotnetWorld.pdb" />
+    <file src="src/bin/Windows_Release/netstandard1.6/DotnetWorld.dll" target="runtimes/win-x86/lib/netstandard1.6/DotnetWorld.dll" />
+    <file src="src/bin/Windows_Release/netstandard1.6/DotnetWorld.pdb" target="runtimes/win-x86/lib/netstandard1.6/DotnetWorld.pdb" />
+    <file src="src/bin/Windows_Release/netstandard1.6/DotnetWorld.dll" target="runtimes/win-x64/lib/netstandard1.6/DotnetWorld.dll" />
+    <file src="src/bin/Windows_Release/netstandard1.6/DotnetWorld.pdb" target="runtimes/win-x64/lib/netstandard1.6/DotnetWorld.pdb" />
+
+    <file src="resources/linux/libworld.so" target="runtimes/linux/native/libworld.so" />
+    <file src="resources/osx/libworld.dylib" target="runtimes/osx/native/libworld.dylib" />
+    <file src="resources/win-x86/world.dll" target="runtimes/win-x86/native/world.dll" />
+    <file src="resources/win-x64/world.dll" target="runtimes/win-x64/native/world.dll" />
+  </files>
+</package>
