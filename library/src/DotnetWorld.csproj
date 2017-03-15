@@ -1,13 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netstandard1.2</TargetFramework>
+    <TargetFramework>netstandard1.3</TargetFramework>
     <DebugType>portable</DebugType>
     <AssemblyName>DotnetWorld</AssemblyName>
     <PackageId>DotnetWorld</PackageId>
   </PropertyGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.2' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
     <PackageReference Include="NETStandard.Library" Version="1.6.1" />
   </ItemGroup>
   <ItemGroup>
@@ -22,5 +20,4 @@
     <Optimize Condition="$(Configuration.Contains('Debug'))">false</Optimize>
     <Optimize Condition="$(Configuration.Contains('Release'))">true</Optimize>
   </PropertyGroup>
-
 </Project>
