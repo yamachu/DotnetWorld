@@ -3,6 +3,7 @@ using DotnetWorld.API.Structs;
 
 namespace DotnetWorld.API
 {
+    #region World original APIs
     public class Core
     {
         public static void CheapTrick(double[] x, int x_length, int fs, double[] temporal_positions,
@@ -48,7 +49,7 @@ namespace DotnetWorld.API
         public static bool Synthesis2(WorldSynthesizer synth) { throw null; }
     }
 
-    public class Tools
+    public partial class Tools
     {
         public static int GetAudioLength(string filename) { throw null; }
             
@@ -56,6 +57,15 @@ namespace DotnetWorld.API
         
         public static void WavWrite(double[] x, int x_length, int fs, int nbit, string filename) {}
     }
+    #endregion
+
+    #region User added APIs
+    public partial class Tools
+    {
+        public static int GetRawAudioLength(string filename, int nbit) { throw null; }
+        public static void RawRead(string filename, int nbit, double[] x) {}
+    }
+    #endregion
 }
 
 namespace DotnetWorld.API.Structs

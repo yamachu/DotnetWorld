@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace DotnetWorld.API
 {
-    public class Tools
+    public partial class Tools
     {
         public static int GetAudioLength(string filename)
             => ToolsDefinitions.GetAudioLength(filename);
