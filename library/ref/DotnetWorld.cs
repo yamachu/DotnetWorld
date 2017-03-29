@@ -55,6 +55,23 @@ namespace DotnetWorld.API
         public static void WavRead(string filename, out int fs, out int nbit, double[] x) { throw null; }
         
         public static void WavWrite(double[] x, int x_length, int fs, int nbit, string filename) {}
+
+        public static void WriteF0(string filename, int f0_length, double frame_period,
+            double[] temporal_positions, double[] f0, int text_flag) {}
+
+        public static int ReadF0(string filename, double[] temporal_positions, double[] f0) { throw null; }
+
+        public static double GetHeaderInformation(string filename, string parameter) { throw null; }
+
+        public static void WriteSpectralEnvelope(string filename, int fs, int f0_length,
+            double frame_period, int fft_size, int number_of_dimensions, double[,] spectrogram) {}
+
+        public static int ReadSpectralEnvelope(string filename, double[,] spectrogram) { throw null; }
+
+        public static void WriteAperiodicity(string filename, int fs, int f0_length,
+            double frame_period, int fft_size, int number_of_dimensions, double[,] aperiodicity) {}
+
+        public static int ReadAperiodicity(string filename, double[,] aperiodicity) { throw null; }
     }
 }
 
