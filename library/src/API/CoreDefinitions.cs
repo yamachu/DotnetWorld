@@ -80,7 +80,7 @@ namespace DotnetWorld.API
             [In][Out] IntPtr y);
         #endregion
 
-        #region SynthesisRealtime - WIP
+        #region SynthesisRealtime
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
         public static extern void InitializeSynthesizer(int fs, double frame_period, int fft_size,
             int buffer_size, int number_of_pointers, [Out] WorldSynthesizer synth);
@@ -100,6 +100,19 @@ namespace DotnetWorld.API
 
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
         public static extern int Synthesis2([In][Out] WorldSynthesizer synth);
+        #endregion
+
+        #region Codec
+        [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
+        public static extern int GetNumberOfAperiodicities(int fs);
+
+        [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
+        public static extern void CodeAperiodicity([In] IntPtr[] aperiodicity,
+            int f0_length, int fs, int fft_size, [In][Out] IntPtr[] coded_aperiodicity);
+
+        [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
+        public static extern void DecodeAperiodicity([In] IntPtr[] coded_aperiodicity,
+            int f0_length, int fs, int fft_size, [In][Out] IntPtr[] aperiodicity);
         #endregion
     }
 }

@@ -47,6 +47,14 @@ namespace DotnetWorld.API
         public static bool IsLocked(WorldSynthesizer synth) { throw null; }
 
         public static bool Synthesis2(WorldSynthesizer synth) { throw null; }
+
+        public static int GetNumberOfAperiodicities(int fs) { throw null; }
+
+        public static void CodeAperiodicity(double[,] aperiodicity, int f0_length,
+            int fs, int fft_size, double[,] coded_aperiodicity) {}
+
+        public static void DecodeAperiodicity(double[,] coded_aperiodicity,
+            int f0_length, int fs, int fft_size, double[,] aperiodicity) {}
     }
 
     public partial class Tools

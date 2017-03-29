@@ -55,7 +55,7 @@ namespace DotnetWorld.API
 
             var tmp_arr = new double[inner];
             
-            for (var i = 0; i < aperiodicity.GetLength(0); i++) {
+            for (var i = 0; i < outer; i++) {
                 Marshal.Copy(ptrs_ap[i], tmp_arr, 0, inner);
                 Buffer.BlockCopy(tmp_arr, 0, aperiodicity, i * inner * sizeof(double), inner * sizeof(double));
                 Marshal.FreeHGlobal(ptrs_ap[i]);
@@ -133,7 +133,7 @@ namespace DotnetWorld.API
 
             CoreDefinitions.Synthesis(f0, f0_length, ptrs_sp, ptrs_ap, fft_size, frame_period, fs, y_length, ptr_y);
 
-            for (var i = 0; i < aperiodicity.GetLength(0); i++) {
+            for (var i = 0; i < outer; i++) {
                 Marshal.FreeHGlobal(ptrs_ap[i]);
                 Marshal.FreeHGlobal(ptrs_sp[i]);
             }
@@ -169,7 +169,7 @@ namespace DotnetWorld.API
             var res = CoreDefinitions.AddParameters(f0, f0_length, ptrs_sp, ptrs_ap, synth);
 
             // WorldSynthesizer はアドレスを保持しているからここでは解放できない => この IntPtr を保持して Destroy 前に破棄？
-            for (var i = 0; i < aperiodicity.GetLength(0); i++)
+            for (var i = 0; i < outer; i++)
             {
                 Marshal.FreeHGlobal(ptrs_ap[i]);
                 Marshal.FreeHGlobal(ptrs_sp[i]);
@@ -189,5 +189,72 @@ namespace DotnetWorld.API
 
         public static bool Synthesis2(WorldSynthesizer synth)
             => CoreDefinitions.Synthesis2(synth) == 1;
+
+        public static int GetNumberOfAperiodicities(int fs)
+            => CoreDefinitions.GetNumberOfAperiodicities(fs);
+
+        public static void CodeAperiodicity(double[,] aperiodicity, int f0_length,
+            int fs, int fft_size, double[,] coded_aperiodicity)
+        {
+            int outer = aperiodicity.GetLength(0);
+            int inner_base = aperiodicity.GetLength(1);
+            int inner_coded = coded_aperiodicity.GetLength(1);
+
+            IntPtr[] ptrs_ap = new IntPtr[outer];
+            IntPtr[] ptrs_coap = new IntPtr[outer];
+
+            var tmp_arr_base = new double[inner_base];
+            var tmp_arr_coded = new double[inner_coded];
+
+            for (var i = 0; i < outer; i++)
+            {
+                ptrs_ap[i] = Marshal.AllocHGlobal(inner_base * Marshal.SizeOf<double>());
+                ptrs_coap[i] = Marshal.AllocHGlobal(inner_coded * Marshal.SizeOf<double>());
+
+                Buffer.BlockCopy(aperiodicity, i * inner_base * sizeof(double), tmp_arr_base, 0, inner_base * sizeof(double));
+                Marshal.Copy(tmp_arr_base, 0, ptrs_ap[i], inner_base);
+            }
+
+            CoreDefinitions.CodeAperiodicity(ptrs_ap, f0_length, fs, fft_size, ptrs_coap);
+            
+            for (var i = 0; i < outer; i++) {
+                Marshal.Copy(ptrs_coap[i], tmp_arr_coded, 0, inner_coded);
+                Buffer.BlockCopy(tmp_arr_coded, 0, coded_aperiodicity, i * inner_coded * sizeof(double), inner_coded * sizeof(double));
+                Marshal.FreeHGlobal(ptrs_ap[i]);
+                Marshal.FreeHGlobal(ptrs_coap[i]);
+            }
+        }
+
+        public static void DecodeAperiodicity(double[,] coded_aperiodicity,
+            int f0_length, int fs, int fft_size, double[,] aperiodicity)
+        {
+            int outer = aperiodicity.GetLength(0);
+            int inner_base = aperiodicity.GetLength(1);
+            int inner_coded = coded_aperiodicity.GetLength(1);
+
+            IntPtr[] ptrs_ap = new IntPtr[outer];
+            IntPtr[] ptrs_coap = new IntPtr[outer];
+
+            var tmp_arr_base = new double[inner_base];
+            var tmp_arr_coded = new double[inner_coded];
+
+            for (var i = 0; i < outer; i++)
+            {
+                ptrs_ap[i] = Marshal.AllocHGlobal(inner_base * Marshal.SizeOf<double>());
+                ptrs_coap[i] = Marshal.AllocHGlobal(inner_coded * Marshal.SizeOf<double>());
+
+                Buffer.BlockCopy(coded_aperiodicity, i * inner_coded * sizeof(double), tmp_arr_coded, 0, inner_coded * sizeof(double));
+                Marshal.Copy(tmp_arr_coded, 0, ptrs_coap[i], inner_coded);
+            }
+
+            CoreDefinitions.DecodeAperiodicity(ptrs_coap, f0_length, fs, fft_size, ptrs_ap);
+            
+            for (var i = 0; i < outer; i++) {
+                Marshal.Copy(ptrs_ap[i], tmp_arr_base, 0, inner_base);
+                Buffer.BlockCopy(tmp_arr_base, 0, aperiodicity, i * inner_base * sizeof(double), inner_base * sizeof(double));
+                Marshal.FreeHGlobal(ptrs_ap[i]);
+                Marshal.FreeHGlobal(ptrs_coap[i]);
+            }
+        }
     }
 }
