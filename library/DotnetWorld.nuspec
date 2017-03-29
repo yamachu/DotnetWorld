@@ -8,22 +8,22 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Package Description</description>
     <dependencies>
-      <group targetFramework=".NETStandard1.2">
+      <group targetFramework=".NETStandard1.3">
         <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="ref/bin/Release/netstandard1.2/DotnetWorld.dll" target="ref/netstandard1.2/DotnetWorld.dll" />
-    <file src="ref/bin/Release/netstandard1.2/DotnetWorld.pdb" target="ref/netstandard1.2/DotnetWorld.pdb" />
-    <file src="src/bin/Linux_Release/netstandard1.2/DotnetWorld.dll" target="runtimes/linux/lib/netstandard1.2/DotnetWorld.dll" />
-    <file src="src/bin/Linux_Release/netstandard1.2/DotnetWorld.pdb" target="runtimes/linux/lib/netstandard1.2/DotnetWorld.pdb" />
-    <file src="src/bin/OSX_Release/netstandard1.2/DotnetWorld.dll" target="runtimes/osx/lib/netstandard1.2/DotnetWorld.dll" />
-    <file src="src/bin/OSX_Release/netstandard1.2/DotnetWorld.pdb" target="runtimes/osx/lib/netstandard1.2/DotnetWorld.pdb" />
-    <file src="src/bin/Windows_Release/netstandard1.2/DotnetWorld.dll" target="runtimes/win-x86/lib/netstandard1.2/DotnetWorld.dll" />
-    <file src="src/bin/Windows_Release/netstandard1.2/DotnetWorld.pdb" target="runtimes/win-x86/lib/netstandard1.2/DotnetWorld.pdb" />
-    <file src="src/bin/Windows_Release/netstandard1.2/DotnetWorld.dll" target="runtimes/win-x64/lib/netstandard1.2/DotnetWorld.dll" />
-    <file src="src/bin/Windows_Release/netstandard1.2/DotnetWorld.pdb" target="runtimes/win-x64/lib/netstandard1.2/DotnetWorld.pdb" />
+    <file src="ref/bin/Release/netstandard1.3/DotnetWorld.dll" target="ref/netstandard1.3/DotnetWorld.dll" />
+    <file src="ref/bin/Release/netstandard1.3/DotnetWorld.pdb" target="ref/netstandard1.3/DotnetWorld.pdb" />
+    <file src="src/bin/Linux_Release/netstandard1.3/DotnetWorld.dll" target="runtimes/linux/lib/netstandard1.3/DotnetWorld.dll" />
+    <file src="src/bin/Linux_Release/netstandard1.3/DotnetWorld.pdb" target="runtimes/linux/lib/netstandard1.3/DotnetWorld.pdb" />
+    <file src="src/bin/OSX_Release/netstandard1.3/DotnetWorld.dll" target="runtimes/osx/lib/netstandard1.3/DotnetWorld.dll" />
+    <file src="src/bin/OSX_Release/netstandard1.3/DotnetWorld.pdb" target="runtimes/osx/lib/netstandard1.3/DotnetWorld.pdb" />
+    <file src="src/bin/Windows_Release/netstandard1.3/DotnetWorld.dll" target="runtimes/win-x86/lib/netstandard1.3/DotnetWorld.dll" />
+    <file src="src/bin/Windows_Release/netstandard1.3/DotnetWorld.pdb" target="runtimes/win-x86/lib/netstandard1.3/DotnetWorld.pdb" />
+    <file src="src/bin/Windows_Release/netstandard1.3/DotnetWorld.dll" target="runtimes/win-x64/lib/netstandard1.3/DotnetWorld.dll" />
+    <file src="src/bin/Windows_Release/netstandard1.3/DotnetWorld.pdb" target="runtimes/win-x64/lib/netstandard1.3/DotnetWorld.pdb" />
 
     <file src="resources/linux/libworld.so" target="runtimes/linux/native/libworld.so" />
     <file src="resources/osx/libworld.dylib" target="runtimes/osx/native/libworld.dylib" />
