@@ -49,6 +49,8 @@ namespace DotnetWorld.API.Structs
         public int current_pointer;
         public int i;
 
+        internal IntPtr dc_remover; // double*
+
         internal IntPtr f0_length; // int*
         internal IntPtr f0_origin; // int*
         internal IntPtr spectrogram; // double***
@@ -121,6 +123,15 @@ namespace DotnetWorld.API.Structs
         public IntPtr waveform; // double*
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=2)]
         public double[] spectrum;
+        public FFT_PLAN inverse_fft;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct InverseComplexFFT
+    {
+        public int fft_size;
+        public IntPtr input; // double[fft_size]
+        public IntPtr output; // double[fft_size]
         public FFT_PLAN inverse_fft;
     }
 

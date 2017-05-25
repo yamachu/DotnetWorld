@@ -14,6 +14,8 @@ namespace DotnetWorld.API
 
         public static int GetFFTSizeForCheapTrick(int fs, CheapTrickOption option) { throw null; }
 
+        public static double GetF0FloorForCheapTrick(int fs, int fft_size) { throw null; }
+
         public static void D4C(double[] x, int x_length, int fs, double[] time_axis,
             double[] f0, int f0_length, int fft_size, D4COption option,
             double[,] aperiodicity) {}
@@ -55,6 +57,10 @@ namespace DotnetWorld.API
 
         public static void DecodeAperiodicity(double[,] coded_aperiodicity,
             int f0_length, int fs, int fft_size, double[,] aperiodicity) {}
+
+        public static void CodeSpectralEnvelope(double[,] spectrogram, int f0_length, int fs, int fft_size, int number_of_dimensions, double[,] coded_spectral_envelope) {}
+
+        public static void DecodeSpectralEnvelope(double[,] coded_spectral_envelope, int f0_length, int fs, int fft_size, int number_of_dimensions, double[,] spectrogram) {}
     }
 
     public partial class Tools
@@ -135,6 +141,8 @@ namespace DotnetWorld.API.Structs
         public IntPtr _buffer; // double*
         public int current_pointer;
         public int i;
+
+        internal IntPtr dc_remover; // double*
 
         internal IntPtr f0_length; // int*
         internal IntPtr f0_origin; // int*

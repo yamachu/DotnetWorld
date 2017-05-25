@@ -25,6 +25,9 @@ namespace DotnetWorld.API
 
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetFFTSizeForCheapTrick(int fs, [Out] CheapTrickOption option);
+
+        [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
+        public static extern double GetF0FloorForCheapTrick(int fs, int fft_size);
         #endregion
 
         #region D4C
@@ -113,6 +116,12 @@ namespace DotnetWorld.API
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
         public static extern void DecodeAperiodicity([In] IntPtr[] coded_aperiodicity,
             int f0_length, int fs, int fft_size, [In][Out] IntPtr[] aperiodicity);
+
+        [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
+        public static extern void CodeSpectralEnvelope([In] IntPtr[] spectrogram, int f0_length, int fs, int fft_size, int number_of_dimensions, [In][Out] IntPtr[] coded_spectral_envelope);
+
+        [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
+        public static extern void DecodeSpectralEnvelope([In] IntPtr[] coded_spectral_envelope, int f0_length, int fs, int fft_size, int number_of_dimensions, [In][Out] IntPtr[] spectrogram);    
         #endregion
     }
 }

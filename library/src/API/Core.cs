@@ -37,6 +37,9 @@ namespace DotnetWorld.API
         public static int GetFFTSizeForCheapTrick(int fs, CheapTrickOption option)
             => CoreDefinitions.GetFFTSizeForCheapTrick(fs, option);
 
+        public static double GetF0FloorForCheapTrick(int fs, int fft_size)
+            => CoreDefinitions.GetF0FloorForCheapTrick(fs, fft_size);
+
         public static void D4C(double[] x, int x_length, int fs, double[] time_axis,
             double[] f0, int f0_length, int fft_size, D4COption option,
             double[,] aperiodicity)
@@ -254,6 +257,70 @@ namespace DotnetWorld.API
                 Buffer.BlockCopy(tmp_arr_base, 0, aperiodicity, i * inner_base * sizeof(double), inner_base * sizeof(double));
                 Marshal.FreeHGlobal(ptrs_ap[i]);
                 Marshal.FreeHGlobal(ptrs_coap[i]);
+            }
+        }
+
+        public static void CodeSpectralEnvelope(double[,] spectrogram, int f0_length,
+            int fs, int fft_size, int number_of_dimensions, double[,] coded_spectral_envelope)
+        {
+            int outer = spectrogram.GetLength(0);
+            int inner_base = spectrogram.GetLength(1);
+            int inner_coded = coded_spectral_envelope.GetLength(1);
+
+            IntPtr[] ptrs_sp = new IntPtr[outer];
+            IntPtr[] ptrs_cosp = new IntPtr[outer];
+
+            var tmp_arr_base = new double[inner_base];
+            var tmp_arr_coded = new double[inner_coded];
+
+            for (var i = 0; i < outer; i++)
+            {
+                ptrs_sp[i] = Marshal.AllocHGlobal(inner_base * Marshal.SizeOf<double>());
+                ptrs_cosp[i] = Marshal.AllocHGlobal(inner_coded * Marshal.SizeOf<double>());
+
+                Buffer.BlockCopy(spectrogram, i * inner_base * sizeof(double), tmp_arr_base, 0, inner_base * sizeof(double));
+                Marshal.Copy(tmp_arr_base, 0, ptrs_sp[i], inner_base);
+            }
+
+            CoreDefinitions.CodeSpectralEnvelope(ptrs_sp, f0_length, fs, fft_size, number_of_dimensions, ptrs_cosp);
+            
+            for (var i = 0; i < outer; i++) {
+                Marshal.Copy(ptrs_cosp[i], tmp_arr_coded, 0, inner_coded);
+                Buffer.BlockCopy(tmp_arr_coded, 0, coded_spectral_envelope, i * inner_coded * sizeof(double), inner_coded * sizeof(double));
+                Marshal.FreeHGlobal(ptrs_sp[i]);
+                Marshal.FreeHGlobal(ptrs_cosp[i]);
+            }
+        }
+
+        public static void DecodeSpectralEnvelope(double[,] coded_spectral_envelope,
+            int f0_length, int fs, int fft_size, int number_of_dimensions, double[,] spectrogram)
+        {
+            int outer = spectrogram.GetLength(0);
+            int inner_base = spectrogram.GetLength(1);
+            int inner_coded = coded_spectral_envelope.GetLength(1);
+
+            IntPtr[] ptrs_sp = new IntPtr[outer];
+            IntPtr[] ptrs_cosp = new IntPtr[outer];
+
+            var tmp_arr_base = new double[inner_base];
+            var tmp_arr_coded = new double[inner_coded];
+
+            for (var i = 0; i < outer; i++)
+            {
+                ptrs_sp[i] = Marshal.AllocHGlobal(inner_base * Marshal.SizeOf<double>());
+                ptrs_cosp[i] = Marshal.AllocHGlobal(inner_coded * Marshal.SizeOf<double>());
+
+                Buffer.BlockCopy(coded_spectral_envelope, i * inner_coded * sizeof(double), tmp_arr_coded, 0, inner_coded * sizeof(double));
+                Marshal.Copy(tmp_arr_coded, 0, ptrs_cosp[i], inner_coded);
+            }
+
+            CoreDefinitions.DecodeSpectralEnvelope(ptrs_cosp, f0_length, fs, fft_size, number_of_dimensions, ptrs_sp);
+            
+            for (var i = 0; i < outer; i++) {
+                Marshal.Copy(ptrs_sp[i], tmp_arr_base, 0, inner_base);
+                Buffer.BlockCopy(tmp_arr_base, 0, spectrogram, i * inner_base * sizeof(double), inner_base * sizeof(double));
+                Marshal.FreeHGlobal(ptrs_sp[i]);
+                Marshal.FreeHGlobal(ptrs_cosp[i]);
             }
         }
     }
