@@ -93,8 +93,10 @@ namespace DotnetWorld.API
     #region User added APIs
     public partial class Tools
     {
+        #if !NETSTANDARD1_2
         public static int GetRawAudioLength(string filename, int nbit) { throw null; }
         public static void RawRead(string filename, int nbit, double[] x) {}
+        #endif
     }
     #endregion
 }

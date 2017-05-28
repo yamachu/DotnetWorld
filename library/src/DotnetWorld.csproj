@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFrameworks>netstandard1.2;netstandard1.3</TargetFrameworks>
     <DebugType>portable</DebugType>
     <AssemblyName>DotnetWorld</AssemblyName>
     <PackageId>DotnetWorld</PackageId>
   </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <PackageReference Include="System.IO.FileSystem">
-      <Version>4.3.0</Version>
+    <PackageReference Include="System.IO.FileSystem" Version="4.3.0">
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

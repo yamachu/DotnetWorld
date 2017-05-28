@@ -8,6 +8,7 @@ namespace DotnetWorld.API
 {
     public partial class Tools
     {
+        #if !NETSTANDARD1_2
         public static int GetRawAudioLength(string filename, int nbit)
         {
             if (nbit != 8 && nbit != 16) {
@@ -43,6 +44,7 @@ namespace DotnetWorld.API
                 Array.Copy(tmp, x, tmp.Length);
             }
         }
+        #endif
     }
 
     internal static class LinqExtensions
