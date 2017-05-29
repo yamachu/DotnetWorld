@@ -16,7 +16,7 @@ build_script:
   - dotnet build library/src -c iOS_Release
 
 after_build:
-  - nuget pack library/DotnetWorld.nuspec
+  - nuget pack library/nuget/DotnetWorld.nuspec
 
 artifacts:
   - path: /DotnetWorld*.nupkg/

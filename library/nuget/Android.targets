@@ -1,0 +1,20 @@
+<?xml version="1.0"  encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_WorldRootPath Condition="'$(_WorldRootPath)' == ''">$(MSBuildThisFileDirectory)..\..\native\</_WorldRootPath>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid'">
+    <AndroidNativeLibrary Include="$(_WorldRootPath)android\armeabi-v7a\libworld.so">
+      <Link>$(_WorldRootPath)android\armeabi-v7a\libworld.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="$(_WorldRootPath)android\arm64-v8a\libworld.so">
+      <Link>$(_WorldRootPath)android\arm64-v8a\libworld.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="$(_WorldRootPath)android\x86\libworld.so">
+      <Link>$(_WorldRootPath)android\x86\libworld.so</Link>
+    </AndroidNativeLibrary>    
+    <AndroidNativeLibrary Include="$(_WorldRootPath)android\x86_64\libworld.so">
+      <Link>$(_WorldRootPath)android\x86_64\libworld.so</Link>
+    </AndroidNativeLibrary>
+  </ItemGroup>
+</Project>
