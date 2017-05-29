@@ -16,6 +16,8 @@
     <DefineConstants Condition="$(Configuration.StartsWith('Linux'))">__Linux</DefineConstants>
     <DefineConstants Condition="$(Configuration.StartsWith('OSX'))">__OSX</DefineConstants>
     <DefineConstants Condition="$(Configuration.StartsWith('Windows'))">__Win</DefineConstants>
+    <DefineConstants Condition="$(Configuration.StartsWith('Android'))">__Android</DefineConstants>
+    <DefineConstants Condition="$(Configuration.StartsWith('iOS'))">__iOS</DefineConstants>
     <DefineConstants Condition="$(Configuration.Contains('Debug'))">$(DefineConstants);DEBUG;TRACE</DefineConstants>
     <DefineConstants Condition="$(Configuration.Contains('Release'))">$(DefineConstants);RELEASE;TRACE</DefineConstants>
     <Optimize Condition="$(Configuration.Contains('Debug'))">false</Optimize>

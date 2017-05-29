@@ -12,6 +12,10 @@ namespace DotnetWorld.API
         private const string DllName = "libworld.so";
 #elif __Win
         private const string DllName = "world.dll";
+#elif __Android
+        private const string DllName = "libworld.so";
+#elif __iOS
+        private const string DllName = "__Internal";
 #endif
         #region CheapTrick
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]

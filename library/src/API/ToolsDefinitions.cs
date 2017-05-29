@@ -11,6 +11,10 @@ namespace DotnetWorld.API
         private const string DllName = "libworld.so";
 #elif __Win
         private const string DllName = "world.dll";
+#elif __Android
+        private const string DllName = "libworld.so";
+#elif __iOS
+        private const string DllName = "__Internal";
 #endif
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
         public static extern void wavwrite([In][MarshalAs(UnmanagedType.LPArray, SizeParamIndex=1)] double[] x,
