@@ -2,14 +2,20 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>DotnetWorld</id>
-    <version>1.2.0</version>
-    <authors>DotnetWorld</authors>
-    <owners>DotnetWorld</owners>
+    <version>1.2.1</version>
+    <authors>yamachu</authors>
+    <owners>yamachu</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Package Description</description>
+    <description>C# wrapper for WORLD</description>
+    <projectUrl>https://github.com/yamachu/DotnetWorld</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/yamachu/DotnetWorld/master/LICENSE</licenseUrl>
     <dependencies>
+      <group targetFramework=".NETStandard1.2">
+        <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
+      </group>
       <group targetFramework=".NETStandard1.3">
         <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
+        <dependency id="System.IO.FileSystem" version="4.3.0" exclude="Build,Analyzers" />
       </group>
     </dependencies>
   </metadata>
@@ -33,5 +39,7 @@
     <file src="..\resources/android/x86/libworld.so" target="native/android/x86" />
     <file src="..\resources/android/x86_64/libworld.so" target="native/android/x86_64" />
     <file src="..\resources/ios/universal/libworld.a" target="native/ios/universal" />
+
+    <file src="..\..\LICENSE" target="Content" />
   </files>
 </package>
