@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>DotnetWorld</id>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <authors>yamachu</authors>
     <owners>yamachu</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
