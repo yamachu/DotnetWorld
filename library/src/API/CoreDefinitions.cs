@@ -6,16 +6,10 @@ namespace DotnetWorld.API
 {
     internal static class CoreDefinitions
     {
-#if __OSX
-        private const string DllName = "libworld.dylib";
-#elif __Linux
-        private const string DllName = "libworld.so";
-#elif __Win
-        private const string DllName = "world.dll";
-#elif __Android
-        private const string DllName = "libworld.so";
-#elif __iOS
+#if __iOS
         private const string DllName = "__Internal";
+#else
+        private const string DllName = "world";
 #endif
         #region CheapTrick
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
