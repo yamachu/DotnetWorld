@@ -9,10 +9,7 @@ before_build:
 #   verbosity: minimal
 build_script:
   - dotnet build library/ref -c Release
-  - dotnet build library/src -c OSX_Release
-  - dotnet build library/src -c Linux_Release
-  - dotnet build library/src -c Windows_Release
-  - dotnet build library/src -c Android_Release
+  - dotnet build library/src -c Release
   - dotnet build library/src -c iOS_Release
 
 after_build:

@@ -11,10 +11,8 @@
     <licenseUrl>https://raw.githubusercontent.com/yamachu/DotnetWorld/master/LICENSE</licenseUrl>
     <dependencies>
       <group targetFramework=".NETStandard1.2">
-        <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETStandard1.3">
-        <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
         <dependency id="System.IO.FileSystem" version="4.3.0" exclude="Build,Analyzers" />
       </group>
     </dependencies>
@@ -23,11 +21,7 @@
     <file src="Android.targets" target="build\MonoAndroid10\DotnetWorld.targets" />
     <file src="iOS.targets" target="build\Xamarin.iOS10\DotnetWorld.targets" />
     <file src="..\ref\bin\Release\**" target="ref" exclude="**\*.deps.json" />
-    <file src="..\src\bin\Linux_Release\**" target="runtimes\linux\lib" exclude="**\*.deps.json" />
-    <file src="..\src\bin\OSX_Release\**" target="runtimes\osx\lib" exclude="**\*.deps.json" />
-    <file src="..\src\bin\Windows_Release\**" target="runtimes\win-x86\lib" exclude="**\*.deps.json" />
-    <file src="..\src\bin\Windows_Release\**" target="runtimes\win-x64\lib" exclude="**\*.deps.json" />
-    <file src="..\src\bin\Android_Release\netstandard1.3\*" target="lib\MonoAndroid10" exclude="**\*.deps.json" />
+    <file src="..\src\bin\Release\**" target="lib" exclude="**\*.deps.json" />
     <file src="..\src\bin\iOS_Release\netstandard1.3\*" target="lib\Xamarin.iOS10" exclude="**\*.deps.json" />
 
     <file src="..\resources/linux/libworld.so" target="runtimes/linux/native/libworld.so" />
