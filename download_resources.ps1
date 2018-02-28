@@ -1,6 +1,8 @@
-$latestInfo = Invoke-WebRequest https://github.com/yamachu/World/releases/latest -Headers @{"Accept"="application/json"}
-$json = $latestInfo.Content | ConvertFrom-Json
-$latestVersion = $json.tag_name
+$latestInfo = [System.Net.HttpWebRequest]::Create('https://github.com/yamachu/World/releases/latest');
+$Location = $latestInfo.GetResponse().ResponseUri.AbsoluteUri
+$Location -match ".*/tag/(?<tagName>.*?)$"
+$latestVersion = $Matches.tagName
+"$latestVersion"
 $baseUrl = "https://github.com/yamachu/World/releases/download/$latestVersion"
 
 Invoke-WebRequest "$baseUrl/libworld.dylib" -OutFile library\resources\osx\libworld.dylib
