@@ -4,6 +4,6 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DotnetWorld" Version="1.1.0" />
+    <ProjectReference Include="..\library\src\DotnetWorld.csproj" />
   </ItemGroup>
 </Project>
