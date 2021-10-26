@@ -14,3 +14,4 @@ Invoke-WebRequest "$baseUrl/Android_arm64_libworld.so" -OutFile library\resource
 Invoke-WebRequest "$baseUrl/Android_x86_64_libworld.so" -OutFile library\resources\android\x86_64\libworld.so
 Invoke-WebRequest "$baseUrl/Android_x86_libworld.so" -OutFile library\resources\android\x86\libworld.so
 Invoke-WebRequest "$baseUrl/ios_libworld.a" -OutFile library\resources\ios\universal\libworld.a
+Invoke-WebRequest "$baseUrl/wasm_libworld.a" -OutFile library\resources\browser-wasm\libworld.a

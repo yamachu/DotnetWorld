@@ -1,0 +1,9 @@
+<?xml version="1.0"  encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <_WorldRootPath Condition="'$(_WorldRootPath)' == ''">$(MSBuildThisFileDirectory)..\..\runtimes\</_WorldRootPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <NativeFileReference Include="$(_WorldRootPath)browser-wasm\native\libworld.a" />
+  </ItemGroup>
+</Project>
