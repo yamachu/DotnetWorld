@@ -1,0 +1,34 @@
+name: .NET
+
+on: push
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+        include-prerelease: true
+    - name: Restore dependencies
+      run: |
+        dotnet restore library/ref
+        dotnet restore library/src
+    - name: Download native
+      shell: pwsh
+      run: . ./download_resources.ps1
+    - name: Build
+      run: |
+        dotnet build library/ref -c Release
+        dotnet build library/src -c Release
+        dotnet build library/src -c iOS_Release
+    - name: Pack
+      run: nuget pack library/nuget/DotnetWorld.nuspec
+    - name: Run sample
+      run: |
+        dotnet restore sampleapp -s .
+        dotnet run --project sampleapp -- ./sampleapp/sample_voice.wav ./out.wav
