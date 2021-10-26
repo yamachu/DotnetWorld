@@ -8,7 +8,7 @@ namespace DotnetWorld.API
 #if __iOS
         private const string DllName = "__Internal";
 #else
-        private const string DllName = "libworld";
+        private const string DllName = "world";
 #endif
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
         public static extern void wavwrite([In][MarshalAs(UnmanagedType.LPArray, SizeParamIndex=1)] double[] x,
