@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>DotnetWorld</id>
@@ -20,14 +20,16 @@
   <files>
     <file src="Android.targets" target="build\MonoAndroid10\DotnetWorld.targets" />
     <file src="iOS.targets" target="build\Xamarin.iOS10\DotnetWorld.targets" />
+    <file src="DotnetWorld.props" target="build\net6.0\DotnetWorld.props" />
     <file src="..\ref\bin\Release\**" target="ref" exclude="**\*.deps.json" />
     <file src="..\src\bin\Release\**" target="lib" exclude="**\*.deps.json" />
     <file src="..\src\bin\iOS_Release\netstandard1.3\*" target="lib\Xamarin.iOS10" exclude="**\*.deps.json" />
 
     <file src="..\resources/linux/libworld.so" target="runtimes/linux/native/libworld.so" />
     <file src="..\resources/osx/libworld.dylib" target="runtimes/osx/native/libworld.dylib" />
-    <file src="..\resources/win-x86/world.dll" target="runtimes/win-x86/native/world.dll" />
-    <file src="..\resources/win-x64/world.dll" target="runtimes/win-x64/native/world.dll" />
+    <file src="..\resources/win-x86/world.dll" target="runtimes/win-x86/native/libworld.dll" />
+    <file src="..\resources/win-x64/world.dll" target="runtimes/win-x64/native/libworld.dll" />
+    <file src="..\resources/browser-wasm/libworld.a" target="runtimes/browser-wasm/native/libworld.a" />
     <file src="..\resources/android/arm/libworld.so" target="native/android/armeabi-v7a" />
     <file src="..\resources/android/arm64/libworld.so" target="native/android/arm64-v8a" />
     <file src="..\resources/android/x86/libworld.so" target="native/android/x86" />
