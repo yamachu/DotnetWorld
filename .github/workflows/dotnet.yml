@@ -32,3 +32,8 @@ jobs:
       run: |
         dotnet restore sampleapp -s .
         dotnet run --project sampleapp -- ./sampleapp/sample_voice.wav ./out.wav
+    - name: Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: DotnetWorld.*.nupkg
