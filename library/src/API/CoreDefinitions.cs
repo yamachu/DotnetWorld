@@ -9,7 +9,7 @@ namespace DotnetWorld.API
 #if __iOS
         private const string DllName = "__Internal";
 #else
-        private const string DllName = "world";
+        private const string DllName = "libworld";
 #endif
         #region CheapTrick
         [DllImport(DllName,CallingConvention = CallingConvention.Cdecl)]
