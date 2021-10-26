@@ -4,6 +4,6 @@
     <_WorldRootPath Condition="'$(_WorldRootPath)' == ''">$(MSBuildThisFileDirectory)..\..\runtimes\</_WorldRootPath>
   </PropertyGroup>
   <ItemGroup>
-    <NativeFileReference Include="$(_WorldRootPath)browser-wasm\native\libworld.a" />
+    <NativeFileReference Include="$(_WorldRootPath)browser-wasm\native\world.a" />
   </ItemGroup>
 </Project>
